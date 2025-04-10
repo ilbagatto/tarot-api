@@ -1,0 +1,2459 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/cards/major": {
+            "get": {
+                "description": "Returns all major arcana cards from the specified deck",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cards"
+                ],
+                "summary": "List Major Arcana cards",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Deck ID (required)",
+                        "name": "deckId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.CardMajor"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new card of interpretations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Create a new card",
+                "parameters": [
+                    {
+                        "description": "CardMajor data",
+                        "name": "card",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CardMajorInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns the ID of the created card",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/cards/major/{id}": {
+            "get": {
+                "description": "Retrieves a card by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Get card by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CardMajor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.CardMajor"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing card",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Update a card",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CardMajor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated card",
+                        "name": "card",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CardMajorInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.CardMajor"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a card by ID",
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Delete a card",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CardMajor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/cards/minor": {
+            "get": {
+                "description": "Returns all minor arcana cards from the specified deck",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cards"
+                ],
+                "summary": "List Minor Arcana cards",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Deck ID (required)",
+                        "name": "deckId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.CardMinor"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new card of interpretations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Create a new card",
+                "parameters": [
+                    {
+                        "description": "CardMinor data",
+                        "name": "card",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CardMinorInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns the ID of the created card",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/cards/minor/{id}": {
+            "get": {
+                "description": "Retrieves a card by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Get card by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CardMinor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.CardMinor"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing card",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Update a card",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CardMinor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated card",
+                        "name": "card",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CardMinorInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.CardMinor"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a card by ID",
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Delete a card",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "CardMinor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/decks": {
+            "get": {
+                "description": "Retrieves a list of available Tarot decks. Optionally filters decks that contain cards.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Get all decks",
+                "parameters": [
+                    {
+                        "enum": [
+                            "true",
+                            "yes",
+                            "1",
+                            "false",
+                            "no",
+                            "0"
+                        ],
+                        "type": "string",
+                        "description": "Filter to include only decks that contain cards",
+                        "name": "hasCards",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DeckListItem"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new Tarot deck and links to existing sources (by ID)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Create a new deck",
+                "parameters": [
+                    {
+                        "description": "Deck input",
+                        "name": "deck",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DeckInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/decks/{id}": {
+            "get": {
+                "description": "Retrieves a deck with its associated interpretation sources",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Get deck by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Deck ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Deck"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates the specified Tarot deck and its sources",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Update a deck",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Deck ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Deck input",
+                        "name": "deck",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DeckInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Deck"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a deck and its associations",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Delete deck by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Deck ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/meanings/major": {
+            "get": {
+                "description": "Returns a list of meanings for major arcana cards with optional filters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Get Major Arcana meanings",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Card number (optional)",
+                        "name": "number",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "straight",
+                            "reverted"
+                        ],
+                        "type": "string",
+                        "description": "Card position",
+                        "name": "position",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Source ID (optional)",
+                        "name": "source",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.MeaningMajor"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new MajorMeaning of interpretations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Create a new MajorMeaning",
+                "parameters": [
+                    {
+                        "description": "MajorMeaning data",
+                        "name": "MajorMeaning",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.MeaningMajorInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns the ID of the created MajorMeaning",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/meanings/major/{id}": {
+            "get": {
+                "description": "Retrieves a MajorMeaning by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Get MajorMeaning by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MajorMeaning ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MeaningMajor"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing MajorMeaning",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Update a MajorMeaning",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MajorMeaning ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated MajorMeaning",
+                        "name": "MajorMeaning",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.MeaningMajorInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MeaningMajor"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a MajorMeaning by ID",
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Delete a MajorMeaning",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MajorMeaning ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/meanings/minor": {
+            "get": {
+                "description": "Returns a list of meanings for minor arcana cards with optional filters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Get Minor Arcana meanings",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Card number (optional)",
+                        "name": "number",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "straight",
+                            "reverted"
+                        ],
+                        "type": "string",
+                        "description": "Card position",
+                        "name": "position",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Source ID (optional)",
+                        "name": "source",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.MeaningMinor"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new MinorMeaning of interpretations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Create a new MinorMeaning",
+                "parameters": [
+                    {
+                        "description": "MinorMeaning data",
+                        "name": "MinorMeaning",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.MeaningMinorInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns the ID of the created MinorMeaning",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/meanings/minor/{id}": {
+            "get": {
+                "description": "Retrieves a MinorMeaning by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Get MinorMeaning by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MinorMeaning ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MeaningMinor"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing MinorMeaning",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Update a MinorMeaning",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MinorMeaning ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated MinorMeaning",
+                        "name": "MinorMeaning",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.MeaningMinorInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MeaningMinor"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a MinorMeaning by ID",
+                "tags": [
+                    "meanings"
+                ],
+                "summary": "Delete a MinorMeaning",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "MinorMeaning ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ranks": {
+            "get": {
+                "description": "Retrieves a list of all available interpretation ranks",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ranks"
+                ],
+                "summary": "Get all ranks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Rank"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new rank of interpretations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ranks"
+                ],
+                "summary": "Create a new rank",
+                "parameters": [
+                    {
+                        "description": "Rank data",
+                        "name": "rank",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RankInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns the ID of the created rank",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ranks/{id}": {
+            "get": {
+                "description": "Retrieves a rank by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ranks"
+                ],
+                "summary": "Get rank by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Rank ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Rank"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing rank",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ranks"
+                ],
+                "summary": "Update a rank",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Rank ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated rank",
+                        "name": "rank",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RankInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Rank"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a rank by ID",
+                "tags": [
+                    "ranks"
+                ],
+                "summary": "Delete a rank",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Rank ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sources": {
+            "get": {
+                "description": "Retrieves a list of all available interpretation sources",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sources"
+                ],
+                "summary": "Get all sources",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.SourceListItem"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new source of interpretations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sources"
+                ],
+                "summary": "Create a new source",
+                "parameters": [
+                    {
+                        "description": "Source data with list of deck IDs",
+                        "name": "source",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SourceInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns the ID of the created source",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sources/{id}": {
+            "get": {
+                "description": "Retrieves a source by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sources"
+                ],
+                "summary": "Get source by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Source ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Source"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing source",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sources"
+                ],
+                "summary": "Update a source",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Source ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated source with list of deck IDs",
+                        "name": "source",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SourceInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Source"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a source by ID",
+                "tags": [
+                    "sources"
+                ],
+                "summary": "Delete a source",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Source ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/spreads": {
+            "get": {
+                "description": "Retrieves a list of all available interpretation spreads",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "spreads"
+                ],
+                "summary": "Get all spreads",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Spread"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new spread of interpretations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "spreads"
+                ],
+                "summary": "Create a new spread",
+                "parameters": [
+                    {
+                        "description": "Spread data",
+                        "name": "spread",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SpreadInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns the ID of the created spread",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/spreads/{id}": {
+            "get": {
+                "description": "Retrieves a spread by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "spreads"
+                ],
+                "summary": "Get spread by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Spread ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Spread"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing spread",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "spreads"
+                ],
+                "summary": "Update a spread",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Spread ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated spread",
+                        "name": "spread",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SpreadInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Spread"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a spread by ID",
+                "tags": [
+                    "spreads"
+                ],
+                "summary": "Delete a spread",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Spread ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/suits": {
+            "get": {
+                "description": "Retrieves a list of all available interpretation suits",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suits"
+                ],
+                "summary": "Get all suits",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Suit"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adds a new suit of interpretations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suits"
+                ],
+                "summary": "Create a new suit",
+                "parameters": [
+                    {
+                        "description": "Suit data",
+                        "name": "suit",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SuitInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns the ID of the created suit",
+                        "schema": {
+                            "$ref": "#/definitions/models.IDOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/suits/{id}": {
+            "get": {
+                "description": "Retrieves a suit by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suits"
+                ],
+                "summary": "Get suit by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Suit ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Suit"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing suit",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suits"
+                ],
+                "summary": "Update a suit",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Suit ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated suit",
+                        "name": "suit",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SuitInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Suit"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a suit by ID",
+                "tags": [
+                    "suits"
+                ],
+                "summary": "Delete a suit",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Suit ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.APIResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handlers.APIResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CardMajor": {
+            "type": "object",
+            "properties": {
+                "deck": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "image": {
+                    "description": "Full URL",
+                    "type": "string"
+                },
+                "meanings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.MeaningRef"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "example": "The Fool"
+                },
+                "number": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "orgname": {
+                    "type": "string",
+                    "example": "Le Mat"
+                }
+            }
+        },
+        "models.CardMajorInput": {
+            "type": "object",
+            "properties": {
+                "deck": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "The Fool"
+                },
+                "number": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "orgname": {
+                    "type": "string",
+                    "example": "Le Mat"
+                }
+            }
+        },
+        "models.CardMinor": {
+            "type": "object",
+            "properties": {
+                "deck": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "image": {
+                    "description": "Full URL",
+                    "type": "string"
+                },
+                "meanings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.MeaningRef"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "example": "The Fool"
+                },
+                "rank": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "suit": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "models.CardMinorInput": {
+            "type": "object",
+            "properties": {
+                "deck": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "rank": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "suit": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "models.Deck": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sources": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Source"
+                    }
+                }
+            }
+        },
+        "models.DeckInput": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sources": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.IDOnly"
+                    }
+                }
+            }
+        },
+        "models.DeckListItem": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.DeckRef": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.IDOnly": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "models.MeaningMajor": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "meaning": {
+                    "type": "string"
+                },
+                "number": {
+                    "description": "major arcana card number (0–21)",
+                    "type": "integer"
+                },
+                "position": {
+                    "description": "straight or reversed",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.MeaningPosition"
+                        }
+                    ]
+                },
+                "source": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.MeaningMajorInput": {
+            "type": "object",
+            "properties": {
+                "meaning": {
+                    "type": "string",
+                    "example": "Spiritual wisdom and intuition"
+                },
+                "number": {
+                    "type": "integer",
+                    "example": 5
+                },
+                "position": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.MeaningPosition"
+                        }
+                    ],
+                    "example": "straight"
+                },
+                "source": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "models.MeaningMinor": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "meaning": {
+                    "type": "string"
+                },
+                "position": {
+                    "$ref": "#/definitions/models.MeaningPosition"
+                },
+                "rank": {
+                    "type": "integer"
+                },
+                "source": {
+                    "type": "integer"
+                },
+                "suit": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.MeaningMinorInput": {
+            "type": "object",
+            "properties": {
+                "meaning": {
+                    "type": "string",
+                    "example": "Active communication and drive"
+                },
+                "position": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.MeaningPosition"
+                        }
+                    ],
+                    "example": "straight"
+                },
+                "rank": {
+                    "type": "integer",
+                    "example": 5
+                },
+                "source": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "suit": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "models.MeaningPosition": {
+            "type": "string",
+            "enum": [
+                "straight",
+                "reverted"
+            ],
+            "x-enum-varnames": [
+                "PositionStraight",
+                "PositionReverted"
+            ]
+        },
+        "models.MeaningRef": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Rank": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.RankInput": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Source": {
+            "type": "object",
+            "properties": {
+                "decks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.DeckRef"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SourceInput": {
+            "type": "object",
+            "properties": {
+                "decks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.IDOnly"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Мишель Моран"
+                }
+            }
+        },
+        "models.SourceListItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Мишель Моран"
+                }
+            }
+        },
+        "models.Spread": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "major_arcana": {
+                    "type": "boolean"
+                },
+                "minor_arcana": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "num_cards": {
+                    "type": "integer"
+                },
+                "upside_down": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.SpreadInput": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "major_arcana": {
+                    "type": "boolean"
+                },
+                "minor_arcana": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "num_cards": {
+                    "type": "integer"
+                },
+                "upside_down": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.Suit": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "genitive": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SuitInput": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "genitive": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:15
+    container_name: tarot-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./setup-db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tarot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "${DB_PORT}:5432"
+
+volumes:
+  redis-data:
+    driver: local
+# networks:
+#     backend-network:
+#         driver: bridge
