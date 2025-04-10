@@ -26,17 +26,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Load env vars
+
+      - name: Start containers and run tests
         run: |
           set -a
-          source .env.test.example
+          source .env
           set +a
 
-      - name: Start test containers
-        run: docker compose -f docker-compose.test.yml up -d
+          docker compose -f docker-compose.test.yml up -d
+          sleep 5
+
+          go test -v ./tests/integration/...
+    
+          docker compose -f docker-compose.test.yml down
 
       - name: Wait for services to be ready
-        run: sleep 5
+        run: |
+          echo "Waiting for PostgreSQL on port 5443..."
+          until pg_isready -h 127.0.0.1 -p 5443; do
+            sleep 1
+          done
+          echo "PostgreSQL is ready!"
 
       - name: Run integration tests
         run: go test -v ./tests/integration/...
