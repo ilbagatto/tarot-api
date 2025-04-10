@@ -1,0 +1,1631 @@
+definitions:
+  handlers.APIResponse:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+    type: object
+  models.CardMajor:
+    properties:
+      deck:
+        example: 1
+        type: integer
+      id:
+        type: integer
+      image:
+        description: Full URL
+        type: string
+      meanings:
+        items:
+          $ref: '#/definitions/models.MeaningRef'
+        type: array
+      name:
+        example: The Fool
+        type: string
+      number:
+        example: 0
+        type: integer
+      orgname:
+        example: Le Mat
+        type: string
+    type: object
+  models.CardMajorInput:
+    properties:
+      deck:
+        example: 1
+        type: integer
+      name:
+        example: The Fool
+        type: string
+      number:
+        example: 0
+        type: integer
+      orgname:
+        example: Le Mat
+        type: string
+    type: object
+  models.CardMinor:
+    properties:
+      deck:
+        example: 1
+        type: integer
+      id:
+        type: integer
+      image:
+        description: Full URL
+        type: string
+      meanings:
+        items:
+          $ref: '#/definitions/models.MeaningRef'
+        type: array
+      name:
+        example: The Fool
+        type: string
+      rank:
+        example: 10
+        type: integer
+      suit:
+        example: 1
+        type: integer
+    type: object
+  models.CardMinorInput:
+    properties:
+      deck:
+        example: 1
+        type: integer
+      rank:
+        example: 10
+        type: integer
+      suit:
+        example: 1
+        type: integer
+    type: object
+  models.Deck:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      sources:
+        items:
+          $ref: '#/definitions/models.Source'
+        type: array
+    type: object
+  models.DeckInput:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      sources:
+        items:
+          $ref: '#/definitions/models.IDOnly'
+        type: array
+    type: object
+  models.DeckListItem:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.DeckRef:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.IDOnly:
+    properties:
+      id:
+        example: 1
+        type: integer
+    type: object
+  models.MeaningMajor:
+    properties:
+      id:
+        type: integer
+      meaning:
+        type: string
+      number:
+        description: major arcana card number (0–21)
+        type: integer
+      position:
+        allOf:
+        - $ref: '#/definitions/models.MeaningPosition'
+        description: straight or reversed
+      source:
+        type: integer
+    type: object
+  models.MeaningMajorInput:
+    properties:
+      meaning:
+        example: Spiritual wisdom and intuition
+        type: string
+      number:
+        example: 5
+        type: integer
+      position:
+        allOf:
+        - $ref: '#/definitions/models.MeaningPosition'
+        example: straight
+      source:
+        example: 1
+        type: integer
+    type: object
+  models.MeaningMinor:
+    properties:
+      id:
+        type: integer
+      meaning:
+        type: string
+      position:
+        $ref: '#/definitions/models.MeaningPosition'
+      rank:
+        type: integer
+      source:
+        type: integer
+      suit:
+        type: integer
+    type: object
+  models.MeaningMinorInput:
+    properties:
+      meaning:
+        example: Active communication and drive
+        type: string
+      position:
+        allOf:
+        - $ref: '#/definitions/models.MeaningPosition'
+        example: straight
+      rank:
+        example: 5
+        type: integer
+      source:
+        example: 1
+        type: integer
+      suit:
+        example: 1
+        type: integer
+    type: object
+  models.MeaningPosition:
+    enum:
+    - straight
+    - reverted
+    type: string
+    x-enum-varnames:
+    - PositionStraight
+    - PositionReverted
+  models.MeaningRef:
+    properties:
+      id:
+        type: integer
+      position:
+        type: string
+      source:
+        type: integer
+    type: object
+  models.Rank:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.RankInput:
+    properties:
+      name:
+        type: string
+    type: object
+  models.Source:
+    properties:
+      decks:
+        items:
+          $ref: '#/definitions/models.DeckRef'
+        type: array
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.SourceInput:
+    properties:
+      decks:
+        items:
+          $ref: '#/definitions/models.IDOnly'
+        type: array
+      name:
+        example: Мишель Моран
+        type: string
+    type: object
+  models.SourceListItem:
+    properties:
+      id:
+        type: integer
+      name:
+        example: Мишель Моран
+        type: string
+    type: object
+  models.Spread:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      major_arcana:
+        type: boolean
+      minor_arcana:
+        type: boolean
+      name:
+        type: string
+      num_cards:
+        type: integer
+      upside_down:
+        type: boolean
+    type: object
+  models.SpreadInput:
+    properties:
+      description:
+        type: string
+      major_arcana:
+        type: boolean
+      minor_arcana:
+        type: boolean
+      name:
+        type: string
+      num_cards:
+        type: integer
+      upside_down:
+        type: boolean
+    type: object
+  models.Suit:
+    properties:
+      description:
+        type: string
+      genitive:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.SuitInput:
+    properties:
+      description:
+        type: string
+      genitive:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /cards/major:
+    get:
+      consumes:
+      - application/json
+      description: Returns all major arcana cards from the specified deck
+      parameters:
+      - description: Deck ID (required)
+        in: query
+        name: deckId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CardMajor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: List Major Arcana cards
+      tags:
+      - cards
+    post:
+      consumes:
+      - application/json
+      description: Adds a new card of interpretations
+      parameters:
+      - description: CardMajor data
+        in: body
+        name: card
+        required: true
+        schema:
+          $ref: '#/definitions/models.CardMajorInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns the ID of the created card
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new card
+      tags:
+      - cards
+  /cards/major/{id}:
+    delete:
+      description: Deletes a card by ID
+      parameters:
+      - description: CardMajor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete a card
+      tags:
+      - cards
+    get:
+      description: Retrieves a card by its ID
+      parameters:
+      - description: CardMajor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CardMajor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get card by ID
+      tags:
+      - cards
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing card
+      parameters:
+      - description: CardMajor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated card
+        in: body
+        name: card
+        required: true
+        schema:
+          $ref: '#/definitions/models.CardMajorInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CardMajor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a card
+      tags:
+      - cards
+  /cards/minor:
+    get:
+      consumes:
+      - application/json
+      description: Returns all minor arcana cards from the specified deck
+      parameters:
+      - description: Deck ID (required)
+        in: query
+        name: deckId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CardMinor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: List Minor Arcana cards
+      tags:
+      - cards
+    post:
+      consumes:
+      - application/json
+      description: Adds a new card of interpretations
+      parameters:
+      - description: CardMinor data
+        in: body
+        name: card
+        required: true
+        schema:
+          $ref: '#/definitions/models.CardMinorInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns the ID of the created card
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new card
+      tags:
+      - cards
+  /cards/minor/{id}:
+    delete:
+      description: Deletes a card by ID
+      parameters:
+      - description: CardMinor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete a card
+      tags:
+      - cards
+    get:
+      description: Retrieves a card by its ID
+      parameters:
+      - description: CardMinor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CardMinor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get card by ID
+      tags:
+      - cards
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing card
+      parameters:
+      - description: CardMinor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated card
+        in: body
+        name: card
+        required: true
+        schema:
+          $ref: '#/definitions/models.CardMinorInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CardMinor'
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a card
+      tags:
+      - cards
+  /decks:
+    get:
+      description: Retrieves a list of available Tarot decks. Optionally filters decks
+        that contain cards.
+      parameters:
+      - description: Filter to include only decks that contain cards
+        enum:
+        - "true"
+        - "yes"
+        - "1"
+        - "false"
+        - "no"
+        - "0"
+        in: query
+        name: hasCards
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.DeckListItem'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all decks
+      tags:
+      - decks
+    post:
+      consumes:
+      - application/json
+      description: Adds a new Tarot deck and links to existing sources (by ID)
+      parameters:
+      - description: Deck input
+        in: body
+        name: deck
+        required: true
+        schema:
+          $ref: '#/definitions/models.DeckInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new deck
+      tags:
+      - decks
+  /decks/{id}:
+    delete:
+      description: Deletes a deck and its associations
+      parameters:
+      - description: Deck ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete deck by ID
+      tags:
+      - decks
+    get:
+      description: Retrieves a deck with its associated interpretation sources
+      parameters:
+      - description: Deck ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Deck'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get deck by ID
+      tags:
+      - decks
+    put:
+      consumes:
+      - application/json
+      description: Updates the specified Tarot deck and its sources
+      parameters:
+      - description: Deck ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Deck input
+        in: body
+        name: deck
+        required: true
+        schema:
+          $ref: '#/definitions/models.DeckInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Deck'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a deck
+      tags:
+      - decks
+  /meanings/major:
+    get:
+      consumes:
+      - application/json
+      description: Returns a list of meanings for major arcana cards with optional
+        filters
+      parameters:
+      - description: Card number (optional)
+        in: query
+        name: number
+        type: integer
+      - description: Card position
+        enum:
+        - straight
+        - reverted
+        in: query
+        name: position
+        type: string
+      - description: Source ID (optional)
+        in: query
+        name: source
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.MeaningMajor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get Major Arcana meanings
+      tags:
+      - meanings
+    post:
+      consumes:
+      - application/json
+      description: Adds a new MajorMeaning of interpretations
+      parameters:
+      - description: MajorMeaning data
+        in: body
+        name: MajorMeaning
+        required: true
+        schema:
+          $ref: '#/definitions/models.MeaningMajorInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns the ID of the created MajorMeaning
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new MajorMeaning
+      tags:
+      - meanings
+  /meanings/major/{id}:
+    delete:
+      description: Deletes a MajorMeaning by ID
+      parameters:
+      - description: MajorMeaning ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete a MajorMeaning
+      tags:
+      - meanings
+    get:
+      description: Retrieves a MajorMeaning by its ID
+      parameters:
+      - description: MajorMeaning ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MeaningMajor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get MajorMeaning by ID
+      tags:
+      - meanings
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing MajorMeaning
+      parameters:
+      - description: MajorMeaning ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated MajorMeaning
+        in: body
+        name: MajorMeaning
+        required: true
+        schema:
+          $ref: '#/definitions/models.MeaningMajorInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MeaningMajor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a MajorMeaning
+      tags:
+      - meanings
+  /meanings/minor:
+    get:
+      consumes:
+      - application/json
+      description: Returns a list of meanings for minor arcana cards with optional
+        filters
+      parameters:
+      - description: Card number (optional)
+        in: query
+        name: number
+        type: integer
+      - description: Card position
+        enum:
+        - straight
+        - reverted
+        in: query
+        name: position
+        type: string
+      - description: Source ID (optional)
+        in: query
+        name: source
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.MeaningMinor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get Minor Arcana meanings
+      tags:
+      - meanings
+    post:
+      consumes:
+      - application/json
+      description: Adds a new MinorMeaning of interpretations
+      parameters:
+      - description: MinorMeaning data
+        in: body
+        name: MinorMeaning
+        required: true
+        schema:
+          $ref: '#/definitions/models.MeaningMinorInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns the ID of the created MinorMeaning
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new MinorMeaning
+      tags:
+      - meanings
+  /meanings/minor/{id}:
+    delete:
+      description: Deletes a MinorMeaning by ID
+      parameters:
+      - description: MinorMeaning ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete a MinorMeaning
+      tags:
+      - meanings
+    get:
+      description: Retrieves a MinorMeaning by its ID
+      parameters:
+      - description: MinorMeaning ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MeaningMinor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get MinorMeaning by ID
+      tags:
+      - meanings
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing MinorMeaning
+      parameters:
+      - description: MinorMeaning ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated MinorMeaning
+        in: body
+        name: MinorMeaning
+        required: true
+        schema:
+          $ref: '#/definitions/models.MeaningMinorInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MeaningMinor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a MinorMeaning
+      tags:
+      - meanings
+  /ranks:
+    get:
+      description: Retrieves a list of all available interpretation ranks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Rank'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get all ranks
+      tags:
+      - ranks
+    post:
+      consumes:
+      - application/json
+      description: Adds a new rank of interpretations
+      parameters:
+      - description: Rank data
+        in: body
+        name: rank
+        required: true
+        schema:
+          $ref: '#/definitions/models.RankInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns the ID of the created rank
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new rank
+      tags:
+      - ranks
+  /ranks/{id}:
+    delete:
+      description: Deletes a rank by ID
+      parameters:
+      - description: Rank ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete a rank
+      tags:
+      - ranks
+    get:
+      description: Retrieves a rank by its ID
+      parameters:
+      - description: Rank ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Rank'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get rank by ID
+      tags:
+      - ranks
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing rank
+      parameters:
+      - description: Rank ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated rank
+        in: body
+        name: rank
+        required: true
+        schema:
+          $ref: '#/definitions/models.RankInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Rank'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a rank
+      tags:
+      - ranks
+  /sources:
+    get:
+      description: Retrieves a list of all available interpretation sources
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SourceListItem'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get all sources
+      tags:
+      - sources
+    post:
+      consumes:
+      - application/json
+      description: Adds a new source of interpretations
+      parameters:
+      - description: Source data with list of deck IDs
+        in: body
+        name: source
+        required: true
+        schema:
+          $ref: '#/definitions/models.SourceInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns the ID of the created source
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new source
+      tags:
+      - sources
+  /sources/{id}:
+    delete:
+      description: Deletes a source by ID
+      parameters:
+      - description: Source ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete a source
+      tags:
+      - sources
+    get:
+      description: Retrieves a source by its ID
+      parameters:
+      - description: Source ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Source'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get source by ID
+      tags:
+      - sources
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing source
+      parameters:
+      - description: Source ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated source with list of deck IDs
+        in: body
+        name: source
+        required: true
+        schema:
+          $ref: '#/definitions/models.SourceInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Source'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a source
+      tags:
+      - sources
+  /spreads:
+    get:
+      description: Retrieves a list of all available interpretation spreads
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Spread'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get all spreads
+      tags:
+      - spreads
+    post:
+      consumes:
+      - application/json
+      description: Adds a new spread of interpretations
+      parameters:
+      - description: Spread data
+        in: body
+        name: spread
+        required: true
+        schema:
+          $ref: '#/definitions/models.SpreadInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns the ID of the created spread
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new spread
+      tags:
+      - spreads
+  /spreads/{id}:
+    delete:
+      description: Deletes a spread by ID
+      parameters:
+      - description: Spread ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete a spread
+      tags:
+      - spreads
+    get:
+      description: Retrieves a spread by its ID
+      parameters:
+      - description: Spread ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Spread'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get spread by ID
+      tags:
+      - spreads
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing spread
+      parameters:
+      - description: Spread ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated spread
+        in: body
+        name: spread
+        required: true
+        schema:
+          $ref: '#/definitions/models.SpreadInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Spread'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a spread
+      tags:
+      - spreads
+  /suits:
+    get:
+      description: Retrieves a list of all available interpretation suits
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Suit'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get all suits
+      tags:
+      - suits
+    post:
+      consumes:
+      - application/json
+      description: Adds a new suit of interpretations
+      parameters:
+      - description: Suit data
+        in: body
+        name: suit
+        required: true
+        schema:
+          $ref: '#/definitions/models.SuitInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns the ID of the created suit
+          schema:
+            $ref: '#/definitions/models.IDOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Create a new suit
+      tags:
+      - suits
+  /suits/{id}:
+    delete:
+      description: Deletes a suit by ID
+      parameters:
+      - description: Suit ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Delete a suit
+      tags:
+      - suits
+    get:
+      description: Retrieves a suit by its ID
+      parameters:
+      - description: Suit ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Suit'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Get suit by ID
+      tags:
+      - suits
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing suit
+      parameters:
+      - description: Suit ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated suit
+        in: body
+        name: suit
+        required: true
+        schema:
+          $ref: '#/definitions/models.SuitInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Suit'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.APIResponse'
+      summary: Update a suit
+      tags:
+      - suits
+swagger: "2.0"
