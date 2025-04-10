@@ -35,7 +35,7 @@ jobs:
           sleep 5
 
       - name: Run tests
-        run: o test -v ./tests/integration/...
+        run: go test -v ./tests/integration/...
 
       - name: Stop test containers
         if: always()
