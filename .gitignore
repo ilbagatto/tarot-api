@@ -25,3 +25,6 @@ go.work.sum
 .env
 __debug_bin*
 .DS_Store
+bin/
+.vscode/
+
