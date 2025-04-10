@@ -12,6 +12,6 @@ func TestBuildWhereClause(t *testing.T) {
 		"position": "straight",
 	}, 1)
 
-	require.Equal(t, "WHERE source = $1 AND position = $2", clause)
-	require.Equal(t, []any{42, "straight"}, args)
+	require.Equal(t, "WHERE position = $1 AND source = $2", clause)
+	require.Equal(t, []any{"straight", 42}, args)
 }
