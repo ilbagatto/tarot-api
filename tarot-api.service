@@ -1,0 +1,19 @@
+[Unit]
+Description=Tarot API Server
+After=network.target
+
+[Service]
+Type=simple
+User=sergey
+WorkingDirectory=/opt/tarot-api
+ExecStart=/opt/tarot-api/bin/tarot-api
+Restart=always
+RestartSec=5
+
+EnvironmentFile=/opt/tarot-api/.env
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=tarot-api
+
+[Install]
+WantedBy=multi-user.target

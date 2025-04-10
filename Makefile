@@ -2,12 +2,15 @@
 
 APP_NAME=tarot-api
 GO_BIN=$(shell go env GOPATH)/bin
+BIN_DIR  = bin
 
 .PHONY: all build run test clean docs
 
 # Build the project
 build: docs
-	go build -o $(APP_NAME) ./cmd/main.go
+	mkdir -p $(BIN_DIR)
+	go build -o $(BIN_DIR)/$(APP_NAME) ./cmd/main.go
+
 
 # Run the application (depends on build)
 run: build
