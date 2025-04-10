@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -14,7 +15,16 @@ func BuildWhereClause(filters map[string]any, startIndex int) (string, []any) {
 	var args []any
 	index := startIndex
 
-	for key, value := range filters {
+	// Стабилизируем порядок обхода
+	keys := make([]string, 0, len(filters))
+	for key := range filters {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+
+	// Обходим ключи по порядку
+	for _, key := range keys {
+		value := filters[key]
 		if value != nil {
 			clauses = append(clauses, fmt.Sprintf("%s = $%d", key, index))
 			args = append(args, value)
