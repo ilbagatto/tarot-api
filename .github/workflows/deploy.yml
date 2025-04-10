@@ -39,17 +39,6 @@ jobs:
           go test -v ./tests/integration/...
     
           docker compose -f docker-compose.test.yml down
-
-      - name: Wait for services to be ready
-        run: |
-          echo "Waiting for PostgreSQL on port 5443..."
-          until pg_isready -h 127.0.0.1 -p 5443; do
-            sleep 1
-          done
-          echo "PostgreSQL is ready!"
-
-      - name: Run integration tests
-        run: go test -v ./tests/integration/...
         
       - name: Stop test containers
         if: always()
