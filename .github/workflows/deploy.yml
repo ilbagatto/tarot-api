@@ -84,24 +84,7 @@ jobs:
           key: ${{ secrets.PROD_KEY }}
           source: "migrations"
           target: "/opt/tarot-api/"
-      - name: Copy card images via rsync
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USER }}
-          key: ${{ secrets.PROD_KEY }}
-          script: |
-            mkdir -p /opt/tarot-api/static/cards
       
-      - name: Restart service
-        if: env.RESTART_SERVICE == 'true'
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USER }}
-          key: ${{ secrets.PROD_KEY }}
-          script: |
-            sudo systemctl restart tarot-api
 
   migrate:
     name: Run Migrations
