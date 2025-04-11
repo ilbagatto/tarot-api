@@ -1,5 +1,28 @@
 # Tarot API
 
+- [Tarot API](#tarot-api)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Tech Stack](#tech-stack)
+  - [Installation](#installation)
+    - [Clone the Repository](#clone-the-repository)
+    - [Environment Variables](#environment-variables)
+  - [Database Setup](#database-setup)
+    - [Using Docker (recommended)](#using-docker-recommended)
+    - [Manual Setup (if PostgreSQL is installed locally)](#manual-setup-if-postgresql-is-installed-locally)
+  - [Usage](#usage)
+    - [Build the project](#build-the-project)
+    - [Start the server](#start-the-server)
+  - [Swagger API Documentation](#swagger-api-documentation)
+    - [Generate docs:](#generate-docs)
+    - [View in browser:](#view-in-browser)
+  - [Demo](#demo)
+  - [Testing](#testing)
+    - [Run unit tests:](#run-unit-tests)
+    - [Run integration tests with Docker:](#run-integration-tests-with-docker)
+  - [License](#license)
+
+
 ## Overview
 Tarot API is a RESTful service that provides access to a structured database of classical Tarot data, including decks, spreads, interpretations (meanings), and card metadata.
 
@@ -113,6 +136,21 @@ make docs
 ### View in browser:
 
 [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
+
+---
+
+## Demo
+
+A live demo of the Tarot API is available here:
+
+👉 [https://tarot-book.ru/docs/](https://tarot-book.ru/docs/)
+
+This is the automatically generated Swagger UI served from the Go application and proxied through Apache. It reflects the current public API structure.
+
+Please note:
+- The documentation includes a simplified version of card interpretations.
+- The full database of interpretations (used internally by the Telegram bot) is not exposed in this public API.
+- There may be minor cosmetic issues in the URL (e.g. extra slashes in redirects), but all routes work correctly.
 
 ---
 
