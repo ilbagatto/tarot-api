@@ -122,9 +122,11 @@ jobs:
     name: Restart Service
     needs: [deploy]
     runs-on: ubuntu-latest
-    if: ${{ secrets.RESTART_SERVICE == 'true' }}
+    env:
+      RESTART_SERVICE: ${{ secrets.RESTART_SERVICE }}
     steps:
       - name: Restart systemd service
+        if: env.RESTART_SERVICE == 'true'
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.PROD_HOST }}
