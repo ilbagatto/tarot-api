@@ -115,7 +115,7 @@ jobs:
       - name: Render systemd unit template
         run: |
           sed "s/{{USER}}/${SYSTEMD_USER}/g; s/{{GROUP}}/${SYSTEMD_GROUP}/g" \
-            deploy/tarot-api.service.tmpl > tarot-api.service
+            tarot-api.service.tmpl > tarot-api.service
 
       - name: Upload systemd unit to server
         uses: appleboy/scp-action@v0.1.4
