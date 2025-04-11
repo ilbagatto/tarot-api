@@ -41,9 +41,7 @@ jobs:
 
   deploy:
     name: Deploy Release
-    if: startsWith(github.ref, 'refs/tags/v')
-    env:
-        RESTART_SERVICE: ${{ secrets.RESTART_SERVICE }}    
+    if: startsWith(github.ref, 'refs/tags/v') 
     needs: [unit-tests, integration-tests]
     runs-on: ubuntu-latest
     steps:
@@ -70,6 +68,31 @@ jobs:
           source: "tarot-api"
           target: ${{ secrets.PROD_PATH }}
 
+      - name: Copy Swagger docs
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_KEY }}
+          source: "docs"
+          target: "/opt/tarot-api/"
+      - name: Copy migrations directory
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_KEY }}
+          source: "migrations"
+          target: "/opt/tarot-api/"
+      - name: Copy card images via rsync
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_KEY }}
+          script: |
+            mkdir -p /opt/tarot-api/static/cards
+      
       - name: Restart service
         if: env.RESTART_SERVICE == 'true'
         uses: appleboy/ssh-action@v0.1.10
@@ -78,4 +101,38 @@ jobs:
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_KEY }}
           script: |
+            sudo systemctl restart tarot-api
+
+  migrate:
+    name: Run Migrations
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run migration script on server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_KEY }}
+          script: |
+            echo "▶️ [migrate] Not implemented yet"
+            # cd /opt/tarot-api && ./tarot-api migrate up
+
+  restart-service:
+    name: Restart Service
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    env:
+      RESTART_SERVICE: ${{ secrets.RESTART_SERVICE }}   
+    # VSCode may show a warning here, but this is valid GitHub Actions syntaxы
+    if: env.RESTART_SERVICE == 'true'
+    steps:
+      - name: Restart systemd service
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_KEY }}
+          script: |
+            echo "🔁 Restarting tarot-api systemd service"
             sudo systemctl restart tarot-api
