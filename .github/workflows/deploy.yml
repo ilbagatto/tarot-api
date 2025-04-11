@@ -117,24 +117,27 @@ jobs:
           sed "s/{{USER}}/${SYSTEMD_USER}/g; s/{{GROUP}}/${SYSTEMD_GROUP}/g" \
             tarot-api.service.tmpl > tarot-api.service
 
-      - name: Upload systemd unit to server
+      - name: Upload systemd unit to /tmp
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_KEY }}
           source: "tarot-api.service"
-          target: "/etc/systemd/system/"
+          target: "/tmp/"
 
-      - name: Reload systemd on server
+      - name: Move unit to /etc and reload systemd
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_KEY }}
           script: |
-            echo "🔄 Reloading systemd daemon"
+            echo "🔧 Moving unit file into place"
+            sudo mv /tmp/tarot-api.service /etc/systemd/system/
+            echo "🔄 Reloading systemd"
             sudo systemctl daemon-reload
+          
 
   restart-service:
     name: Restart Service
