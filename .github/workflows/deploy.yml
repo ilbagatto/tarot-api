@@ -57,7 +57,7 @@ jobs:
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
       - name: Build binary
-        run: make build
+        run: make build-linux
 
       - name: Copy binary to server
         uses: appleboy/scp-action@v0.1.4
