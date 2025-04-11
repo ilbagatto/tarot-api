@@ -1,0 +1,14 @@
+[Unit]
+Description=Tarot API Service
+After=network.target
+
+[Service]
+ExecStart=/opt/tarot-api/bin/tarot-api
+WorkingDirectory=/opt/tarot-api
+Restart=on-failure
+User={{USER}}
+Group={{GROUP}}
+EnvironmentFile=/opt/tarot-api/.env
+
+[Install]
+WantedBy=multi-user.target

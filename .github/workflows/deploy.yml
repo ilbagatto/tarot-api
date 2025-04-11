@@ -101,9 +101,44 @@ jobs:
             echo "▶️ [migrate] Not implemented yet"
             # cd /opt/tarot-api && ./tarot-api migrate up
 
+  install-service:
+    name: Install systemd service
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    env:
+      SYSTEMD_USER: ${{ secrets.SYSTEMD_USER }}
+      SYSTEMD_GROUP: ${{ secrets.SYSTEMD_GROUP }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Render systemd unit template
+        run: |
+          sed "s/{{USER}}/${SYSTEMD_USER}/g; s/{{GROUP}}/${SYSTEMD_GROUP}/g" \
+            deploy/tarot-api.service.tmpl > tarot-api.service
+
+      - name: Upload systemd unit to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_KEY }}
+          source: "tarot-api.service"
+          target: "/etc/systemd/system/"
+
+      - name: Reload systemd on server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_KEY }}
+          script: |
+            echo "🔄 Reloading systemd daemon"
+            sudo systemctl daemon-reload
+
   restart-service:
     name: Restart Service
-    needs: [deploy]
+    needs: [install-service]
     runs-on: ubuntu-latest
     env:
       RESTART_SERVICE: ${{ secrets.RESTART_SERVICE }}
