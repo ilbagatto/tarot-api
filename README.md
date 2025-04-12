@@ -16,7 +16,6 @@
   - [Swagger API Documentation](#swagger-api-documentation)
     - [Generate docs:](#generate-docs)
     - [View in browser:](#view-in-browser)
-  - [Demo](#demo)
   - [Testing](#testing)
     - [Run unit tests:](#run-unit-tests)
     - [Run integration tests with Docker:](#run-integration-tests-with-docker)
@@ -137,20 +136,6 @@ make docs
 
 [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
 
----
-
-## Demo
-
-A live demo of the Tarot API is available here:
-
-👉 [https://tarot-book.ru/docs/](https://tarot-book.ru/docs/)
-
-This is the automatically generated Swagger UI served from the Go application and proxied through Apache. It reflects the current public API structure.
-
-Please note:
-- The documentation includes a simplified version of card interpretations.
-- The full database of interpretations (used internally by the Telegram bot) is not exposed in this public API.
-- There may be minor cosmetic issues in the URL (e.g. extra slashes in redirects), but all routes work correctly.
 
 ---
 
