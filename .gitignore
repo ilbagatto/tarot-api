@@ -27,4 +27,5 @@ __debug_bin*
 .DS_Store
 bin/
 .vscode/
-
+go-taricode-workspace
+*.code-workspace
