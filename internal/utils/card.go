@@ -5,9 +5,9 @@ import (
 	"strings"
 )
 
-// GetCardImage constructs a full URL to a card image.
+// GetImageURL constructs a full URL to n image.
 // It returns nil if BASE_URL is not set.
-func GetCardImage(path string) *string {
+func GetImageURL(path string) *string {
 	base := os.Getenv("BASE_URL")
 	if base == "" {
 		return nil

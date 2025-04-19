@@ -46,7 +46,7 @@ func ListMajorCards(db *sql.DB, deckID int64) ([]CardMajor, error) {
 
 		img, err := GetCardImageByCardID(db, card.ID)
 		if err == nil {
-			card.Image = utils.GetCardImage(img.Path)
+			card.Image = utils.GetImageURL(img.Path)
 		}
 
 		cards = append(cards, card)
@@ -74,7 +74,7 @@ func GetMajorCardByID(db *sql.DB, id int64) (*CardMajor, error) {
 
 	img, err := GetCardImageByCardID(db, card.ID)
 	if err == nil {
-		card.Image = utils.GetCardImage(img.Path)
+		card.Image = utils.GetImageURL(img.Path)
 	}
 
 	// Load related meanings
@@ -184,7 +184,7 @@ func UpdateMajorCard(db *sql.DB, id int64, input CardMajorInput) (*CardMajor, er
 
 	img, err := GetCardImageByCardID(db, id)
 	if err == nil {
-		updated.Image = utils.GetCardImage(img.Path)
+		updated.Image = utils.GetImageURL(img.Path)
 	}
 
 	return updated, nil

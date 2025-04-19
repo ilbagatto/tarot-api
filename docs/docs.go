@@ -2131,6 +2131,10 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "image": {
+                    "description": "Full URL",
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -2146,6 +2150,10 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "description": {
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Full URL",
                     "type": "string"
                 },
                 "name": {
@@ -2168,6 +2176,10 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "image": {
+                    "description": "Full URL",
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 }
@@ -2181,6 +2193,10 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "image": {
+                    "description": "Full URL",
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"

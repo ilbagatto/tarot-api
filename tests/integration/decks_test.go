@@ -42,6 +42,7 @@ func Test_GET__decks_with_hasCards_param(t *testing.T) {
 func Test_POST__decks_creates_new_deck(t *testing.T) {
 	payload := models.DeckInput{
 		Name:        "Test Deck",
+		Image:       "image.png",
 		Description: "Test description",
 		Sources:     []models.IDOnly{{ID: 1}},
 	}
@@ -66,6 +67,7 @@ func Test_POST__decks_creates_new_deck(t *testing.T) {
 func Test_POST__decks_with_duplicate_name_returns_409(t *testing.T) {
 	payload := models.DeckInput{
 		Name:        "Duplicate Deck",
+		Image:       "image.png",
 		Description: "First instance",
 		Sources:     []models.IDOnly{{ID: 1}},
 	}
@@ -117,6 +119,7 @@ func Test_PUT__nonexistent_deck_returns_404(t *testing.T) {
 func Test_PUT__decks_updates_existing_deck(t *testing.T) {
 	payload := models.DeckInput{
 		Name:        "Deck to Update",
+		Image:       "image.png",
 		Description: "Old description",
 		Sources:     []models.IDOnly{{ID: 1}},
 	}
@@ -134,6 +137,7 @@ func Test_PUT__decks_updates_existing_deck(t *testing.T) {
 	// Update
 	updated := models.DeckInput{
 		Name:        "Updated Deck",
+		Image:       "image.png",
 		Description: "Updated description",
 		Sources:     []models.IDOnly{{ID: 1}},
 	}
@@ -166,6 +170,7 @@ func Test_DELETE__deck_removes_existing_deck(t *testing.T) {
 	// Create a deck
 	payload := models.DeckInput{
 		Name:        "Deck to Delete",
+		Image:       "image.png",
 		Description: "To be deleted",
 		Sources:     []models.IDOnly{{ID: 1}},
 	}

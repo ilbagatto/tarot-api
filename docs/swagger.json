@@ -2119,6 +2119,10 @@
                 "id": {
                     "type": "integer"
                 },
+                "image": {
+                    "description": "Full URL",
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -2134,6 +2138,10 @@
             "type": "object",
             "properties": {
                 "description": {
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Full URL",
                     "type": "string"
                 },
                 "name": {
@@ -2156,6 +2164,10 @@
                 "id": {
                     "type": "integer"
                 },
+                "image": {
+                    "description": "Full URL",
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 }
@@ -2169,6 +2181,10 @@
                 },
                 "id": {
                     "type": "integer"
+                },
+                "image": {
+                    "description": "Full URL",
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"

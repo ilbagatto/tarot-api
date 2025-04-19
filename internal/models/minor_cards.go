@@ -46,7 +46,7 @@ func ListMinorCards(db *sql.DB, deckID int64) ([]CardMinor, error) {
 
 		img, err := GetCardImageByCardID(db, card.ID)
 		if err == nil {
-			card.Image = utils.GetCardImage(img.Path)
+			card.Image = utils.GetImageURL(img.Path)
 		}
 
 		cards = append(cards, card)
@@ -73,7 +73,7 @@ func GetMinorCardByID(db *sql.DB, id int64) (*CardMinor, error) {
 
 	img, err := GetCardImageByCardID(db, card.ID)
 	if err == nil {
-		card.Image = utils.GetCardImage(img.Path)
+		card.Image = utils.GetImageURL(img.Path)
 	}
 
 	// Load related meanings

@@ -6,6 +6,7 @@ import (
 
 type DeckInput struct {
 	Name        string   `json:"name"`
+	Image       string   `json:"image"` // Full URL
 	Description string   `json:"description"`
 	Sources     []IDOnly `json:"sources"`
 }
@@ -14,6 +15,7 @@ type DeckInput struct {
 type Deck struct {
 	ID          int64    `json:"id"`
 	Name        string   `json:"name"`
+	Image       string   `json:"image"` // Full URL
 	Description string   `json:"description"`
 	Sources     []Source `json:"sources,omitempty"`
 }
@@ -22,6 +24,7 @@ type Deck struct {
 type DeckListItem struct {
 	ID          int64  `json:"id"`
 	Name        string `json:"name"`
+	Image       string `json:"image"` // Full URL
 	Description string `json:"description"`
 }
 
@@ -29,51 +32,46 @@ type DeckListItem struct {
 type DeckRef struct {
 	ID          int64  `json:"id"`
 	Name        string `json:"name"`
+	Image       string `json:"image"` // Full URL
 	Description string `json:"description,omitempty"`
+}
+
+// fetchDecksFromRows handles rows and returns decks list.
+func fetchDecksFromRows(rows *sql.Rows) ([]DeckListItem, error) {
+	defer rows.Close()
+	var decks []DeckListItem
+
+	for rows.Next() {
+		var deck DeckListItem
+		if err := rows.Scan(&deck.ID, &deck.Name, &deck.Image, &deck.Description); err != nil {
+			return nil, err
+		}
+		decks = append(decks, deck)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return decks, nil
+}
+
+// listDecksByQuery выполняет запрос и вызывает обработчик
+func listDecksByQuery(db *sql.DB, query string) ([]DeckListItem, error) {
+	rows, err := db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	return fetchDecksFromRows(rows)
 }
 
 // ListDecks retrieves all decks
 func ListDecks(db *sql.DB) ([]DeckListItem, error) {
-	var decks []DeckListItem
-	rows, err := db.Query("SELECT id, name, description FROM deck")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var deck DeckListItem
-		if err := rows.Scan(&deck.ID, &deck.Name, &deck.Description); err != nil {
-			return nil, err
-		}
-		decks = append(decks, deck)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return decks, nil
+	return listDecksByQuery(db, "SELECT id, name, image, description FROM deck")
 }
 
 // ListNonEmptyDecks retrieves only decks that contain cards and images
 func ListNonEmptyDecks(db *sql.DB) ([]DeckListItem, error) {
-	var decks []DeckListItem
-	rows, err := db.Query("SELECT id, name, description FROM nonempty_decks_view")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var deck DeckListItem
-		if err := rows.Scan(&deck.ID, &deck.Name, &deck.Description); err != nil {
-			return nil, err
-		}
-		decks = append(decks, deck)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return decks, nil
+	return listDecksByQuery(db, "SELECT id, name, image, description FROM nonempty_decks_view")
 }
 
 // GetDeckByID retrieves a single deck and its sources
@@ -81,7 +79,7 @@ func GetDeckByID(db *sql.DB, deckId int64) (*Deck, error) {
 	var deck Deck
 
 	// Main deck query
-	row := db.QueryRow("SELECT id, name, description FROM deck WHERE id = $1", deckId)
+	row := db.QueryRow("SELECT id, name, image, description FROM deck WHERE id = $1", deckId)
 	if err := row.Scan(&deck.ID, &deck.Name, &deck.Description); err != nil {
 		return nil, err
 	}
@@ -115,10 +113,10 @@ func GetDeckByID(db *sql.DB, deckId int64) (*Deck, error) {
 
 // CreateDeck inserts a new deck into the database and returns the new ID
 func CreateDeck(db *sql.DB, deck DeckInput) (*int64, error) {
-	query := "INSERT INTO deck (name, description) VALUES ($1, $2) RETURNING id"
+	query := "INSERT INTO deck (name, image, description) VALUES ($1, $2, $3) RETURNING id"
 
 	var id int64
-	if err := db.QueryRow(query, deck.Name, deck.Description).Scan(&id); err != nil {
+	if err := db.QueryRow(query, deck.Name, deck.Image, deck.Description).Scan(&id); err != nil {
 		return nil, err
 	}
 
@@ -134,8 +132,8 @@ func UpdateDeck(db *sql.DB, deckID int64, input DeckInput) (*Deck, error) {
 	defer tx.Rollback()
 
 	// Update deck fields
-	updateQuery := "UPDATE deck SET name = $1, description = $2 WHERE id = $3"
-	res, err := tx.Exec(updateQuery, input.Name, input.Description, deckID)
+	updateQuery := "UPDATE deck SET name = $1, image = $2, description = $3 WHERE id = $4"
+	res, err := tx.Exec(updateQuery, input.Name, input.Image, input.Description, deckID)
 	if err != nil {
 		return nil, err
 	}
@@ -169,6 +167,7 @@ func UpdateDeck(db *sql.DB, deckID int64, input DeckInput) (*Deck, error) {
 	updated := &Deck{
 		ID:          deckID,
 		Name:        input.Name,
+		Image:       input.Image,
 		Description: input.Description,
 		Sources:     make([]Source, len(input.Sources)),
 	}

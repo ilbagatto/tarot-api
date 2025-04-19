@@ -17,6 +17,7 @@ import (
 func createDeck() (*int64, error) {
 	deck := models.DeckInput{
 		Name:        testutils.RandomString(10, 50),
+		Image:       "image.png",
 		Description: "TODO",
 		Sources:     []models.IDOnly{{ID: 1}},
 	}
