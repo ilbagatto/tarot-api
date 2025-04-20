@@ -102,7 +102,7 @@ definitions:
       description:
         type: string
       image:
-        description: Full URL
+        description: Relative URL
         type: string
       name:
         type: string

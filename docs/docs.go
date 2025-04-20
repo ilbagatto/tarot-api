@@ -2153,7 +2153,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "image": {
-                    "description": "Full URL",
+                    "description": "Relative URL",
                     "type": "string"
                 },
                 "name": {

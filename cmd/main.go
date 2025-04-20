@@ -12,6 +12,7 @@ import (
 	"github.com/ilbagatto/tarot-api/internal/logging"
 	"github.com/ilbagatto/tarot-api/internal/routes"
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )
 
@@ -38,6 +39,15 @@ func main() {
 
 	// Initialize application
 	application := app.NewApp(database)
+	// Add global middleware for charset=utf-8 in JSON responses
+	application.Echo.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			// Установим заголовок ЗАРАНЕЕ
+			c.Response().Header().Set("Content-Type", "application/json; charset=utf-8")
+			return next(c)
+		}
+	})
+
 	routes.InitRoutes(application)
 
 	// Start the server in a goroutine

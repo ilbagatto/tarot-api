@@ -2,11 +2,16 @@ package models
 
 import (
 	"database/sql"
+
+	"github.com/ilbagatto/tarot-api/internal/utils"
 )
 
+// DeckInput represents input format for creating/updating decks
+// Please, note that Image field here must be a relative path, unlike
+// Image in the other structures for reading.
 type DeckInput struct {
 	Name        string   `json:"name"`
-	Image       string   `json:"image"` // Full URL
+	Image       string   `json:"image"` // Relative URL
 	Description string   `json:"description"`
 	Sources     []IDOnly `json:"sources"`
 }
@@ -46,6 +51,7 @@ func fetchDecksFromRows(rows *sql.Rows) ([]DeckListItem, error) {
 		if err := rows.Scan(&deck.ID, &deck.Name, &deck.Image, &deck.Description); err != nil {
 			return nil, err
 		}
+		deck.Image = *utils.GetImageURL(deck.Image)
 		decks = append(decks, deck)
 	}
 
@@ -83,6 +89,8 @@ func GetDeckByID(db *sql.DB, deckId int64) (*Deck, error) {
 	if err := row.Scan(&deck.ID, &deck.Name, &deck.Description); err != nil {
 		return nil, err
 	}
+
+	deck.Image = *utils.GetImageURL(deck.Image)
 
 	// Load related sources
 	query := `
