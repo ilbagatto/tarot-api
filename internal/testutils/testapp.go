@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"path/filepath"
+	"runtime"
 
 	"github.com/ilbagatto/tarot-api/internal/app"
 	"github.com/ilbagatto/tarot-api/internal/db"
@@ -17,13 +17,23 @@ type TestApp struct {
 	App *app.App
 }
 
-// SetupTestApp initializes the application for integration tests
-func SetupTestApp() *TestApp {
-	cwd, _ := os.Getwd()
-	if err := godotenv.Load(filepath.Join(cwd, ".env.test")); err != nil {
-		log.Printf("⚠️ Could not load .env.test: %v", err)
+func loadEnvFromProjectRoot() {
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		log.Fatal("Unable to get current file location")
 	}
 
+	projectRoot := filepath.Join(filepath.Dir(filename), "../../")
+	envPath := filepath.Join(projectRoot, ".env.test")
+
+	if err := godotenv.Load(envPath); err != nil {
+		log.Printf("⚠️ Could not load %s: %v", envPath, err)
+	}
+}
+
+// SetupTestApp initializes the application for integration tests
+func SetupTestApp() *TestApp {
+	loadEnvFromProjectRoot()
 	database, err := db.InitDB()
 	if err != nil {
 		log.Fatalf("failed to connect to test database: %v", err)
