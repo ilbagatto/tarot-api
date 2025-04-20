@@ -17,7 +17,10 @@ type TestApp struct {
 
 // SetupTestApp initializes the application for integration tests
 func SetupTestApp() *TestApp {
-	godotenv.Load(".env.test")
+	err := godotenv.Load(".env.test")
+	if err != nil {
+		log.Printf("⚠️ Could not load .env.test: %v", err)
+	}
 	database, err := db.InitDB()
 	if err != nil {
 		log.Fatalf("failed to connect to test database: %v", err)
