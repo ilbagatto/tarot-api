@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 
 	"github.com/ilbagatto/tarot-api/internal/app"
 	"github.com/ilbagatto/tarot-api/internal/db"
@@ -17,10 +19,11 @@ type TestApp struct {
 
 // SetupTestApp initializes the application for integration tests
 func SetupTestApp() *TestApp {
-	err := godotenv.Load(".env.test")
-	if err != nil {
+	cwd, _ := os.Getwd()
+	if err := godotenv.Load(filepath.Join(cwd, ".env.test")); err != nil {
 		log.Printf("⚠️ Could not load .env.test: %v", err)
 	}
+
 	database, err := db.InitDB()
 	if err != nil {
 		log.Fatalf("failed to connect to test database: %v", err)
