@@ -42,7 +42,6 @@ func main() {
 	// Add global middleware for charset=utf-8 in JSON responses
 	application.Echo.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			// Установим заголовок ЗАРАНЕЕ
 			c.Response().Header().Set("Content-Type", "application/json; charset=utf-8")
 			return next(c)
 		}
