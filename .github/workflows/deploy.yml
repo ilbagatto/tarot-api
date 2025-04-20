@@ -23,21 +23,39 @@ jobs:
   integration-tests:
     name: Run Integration Tests
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Start containers and run tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Start containers
+        run: docker compose -f docker-compose.test.yml up -d
+
+      - name: Wait for Postgres to be healthy
         run: |
-          set -a
-          source .env.test.example
-          set +a
-          docker compose -f docker-compose.test.yml up -d
-          sleep 10
-          go test -v ./tests/integration/...
+          for i in {1..20}; do
+            STATUS=$(docker inspect --format='{{.State.Health.Status}}' tarot-postgres-test)
+            echo "⏳ DB health status: $STATUS"
+            if [ "$STATUS" = "healthy" ]; then
+              echo "✅ DB is healthy"
+              break
+            fi
+            sleep 2
+          done
+
+          if [ "$STATUS" != "healthy" ]; then
+            echo "❌ DB failed to become healthy"
+            docker logs tarot-postgres-test
+            exit 1
+          fi
+
+      - name: Run Integration Tests
+        run: go test -v ./tests/integration/...
 
       - name: Stop test containers
         if: always()
         run: docker compose -f docker-compose.test.yml down
+
 
   deploy:
     name: Deploy Release
