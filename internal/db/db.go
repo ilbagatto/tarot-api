@@ -5,14 +5,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 // InitDB initializes the PostgreSQL database connection
 func InitDB() (*sql.DB, error) {
-	_ = godotenv.Load() // Optional, ignore error if .env not found
-
 	dsn := os.Getenv("POSTGRES_DSN")
 	if dsn == "" {
 		log.Fatal("POSTGRES_DSN is not set")
