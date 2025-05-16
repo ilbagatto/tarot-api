@@ -10,6 +10,7 @@ import (
 	"github.com/ilbagatto/tarot-api/internal/app"
 	"github.com/ilbagatto/tarot-api/internal/db"
 	"github.com/ilbagatto/tarot-api/internal/logging"
+	"github.com/ilbagatto/tarot-api/internal/middleware"
 	"github.com/ilbagatto/tarot-api/internal/routes"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -45,6 +46,8 @@ func main() {
 			return next(c)
 		}
 	})
+
+	application.Echo.Use(middleware.CORSMiddleware())
 
 	routes.InitRoutes(application)
 

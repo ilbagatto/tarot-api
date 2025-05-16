@@ -479,22 +479,6 @@ const docTemplate = `{
                     "decks"
                 ],
                 "summary": "Get all decks",
-                "parameters": [
-                    {
-                        "enum": [
-                            "true",
-                            "yes",
-                            "1",
-                            "false",
-                            "no",
-                            "0"
-                        ],
-                        "type": "string",
-                        "description": "Filter to include only decks that contain cards",
-                        "name": "hasCards",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2128,6 +2112,9 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "hasMinorCards": {
+                    "type": "boolean"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -2172,6 +2159,9 @@ const docTemplate = `{
             "properties": {
                 "description": {
                     "type": "string"
+                },
+                "hasMinorCards": {
+                    "type": "boolean"
                 },
                 "id": {
                     "type": "integer"

@@ -18,19 +18,21 @@ type DeckInput struct {
 
 // Deck represents a Tarot deck
 type Deck struct {
-	ID          int64    `json:"id"`
-	Name        string   `json:"name"`
-	Image       string   `json:"image"` // Full URL
-	Description string   `json:"description"`
-	Sources     []Source `json:"sources,omitempty"`
+	ID            int64    `json:"id"`
+	Name          string   `json:"name"`
+	Image         string   `json:"image"` // Full URL
+	Description   string   `json:"description"`
+	Sources       []Source `json:"sources,omitempty"`
+	HasMinorCards bool     `json:"hasMinorCards"`
 }
 
 // DeckListItem represents a Tarot deck as list item, without related sources
 type DeckListItem struct {
-	ID          int64  `json:"id"`
-	Name        string `json:"name"`
-	Image       string `json:"image"` // Full URL
-	Description string `json:"description"`
+	ID            int64  `json:"id"`
+	Name          string `json:"name"`
+	Image         string `json:"image"` // Full URL
+	Description   string `json:"description"`
+	HasMinorCards bool   `json:"hasMinorCards"`
 }
 
 // DeckRef is a lightweight deck reference for embedding in Source
@@ -48,7 +50,7 @@ func fetchDecksFromRows(rows *sql.Rows) ([]DeckListItem, error) {
 
 	for rows.Next() {
 		var deck DeckListItem
-		if err := rows.Scan(&deck.ID, &deck.Name, &deck.Image, &deck.Description); err != nil {
+		if err := rows.Scan(&deck.ID, &deck.Name, &deck.Image, &deck.HasMinorCards, &deck.Description); err != nil {
 			return nil, err
 		}
 		deck.Image = *utils.GetImageURL(deck.Image)
@@ -61,23 +63,13 @@ func fetchDecksFromRows(rows *sql.Rows) ([]DeckListItem, error) {
 	return decks, nil
 }
 
-// listDecksByQuery выполняет запрос и вызывает обработчик
-func listDecksByQuery(db *sql.DB, query string) ([]DeckListItem, error) {
-	rows, err := db.Query(query)
+// ListDecks retrieves all decks
+func ListDecks(db *sql.DB) ([]DeckListItem, error) {
+	rows, err := db.Query("SELECT id, name, image, has_minor_cards, description FROM deck_with_stats")
 	if err != nil {
 		return nil, err
 	}
 	return fetchDecksFromRows(rows)
-}
-
-// ListDecks retrieves all decks
-func ListDecks(db *sql.DB) ([]DeckListItem, error) {
-	return listDecksByQuery(db, "SELECT id, name, image, description FROM deck")
-}
-
-// ListNonEmptyDecks retrieves only decks that contain cards and images
-func ListNonEmptyDecks(db *sql.DB) ([]DeckListItem, error) {
-	return listDecksByQuery(db, "SELECT id, name, image, description FROM nonempty_decks_view")
 }
 
 // GetDeckByID retrieves a single deck and its sources
@@ -85,8 +77,8 @@ func GetDeckByID(db *sql.DB, deckId int64) (*Deck, error) {
 	var deck Deck
 
 	// Main deck query
-	row := db.QueryRow("SELECT id, name, image, description FROM deck WHERE id = $1", deckId)
-	if err := row.Scan(&deck.ID, &deck.Name, &deck.Description); err != nil {
+	row := db.QueryRow("SELECT id, name, image, has_minor_cards, description FROM deck_with_stats WHERE id = $1", deckId)
+	if err := row.Scan(&deck.ID, &deck.Name, &deck.Image, &deck.HasMinorCards, &deck.Description); err != nil {
 		return nil, err
 	}
 

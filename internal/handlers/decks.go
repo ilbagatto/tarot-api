@@ -5,7 +5,6 @@ import (
 
 	"github.com/ilbagatto/tarot-api/internal/app"
 	"github.com/ilbagatto/tarot-api/internal/models"
-	"github.com/ilbagatto/tarot-api/internal/utils"
 	"github.com/labstack/echo/v4"
 )
 
@@ -14,7 +13,6 @@ import (
 // @Description Retrieves a list of available Tarot decks. Optionally filters decks that contain cards.
 // @Tags decks
 // @Produce json
-// @Param hasCards query string false "Filter to include only decks that contain cards" Enums(true, yes, 1, false, no, 0)
 // @Success 200 {array} models.DeckListItem
 // @Failure 500 {object} map[string]string
 // @Router /decks [get]
@@ -22,12 +20,7 @@ func ListDecksHandler(a *app.App) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var decks []models.DeckListItem
 		var err error
-
-		if utils.ParseBoolParam(c.QueryParam("hasCards")) {
-			decks, err = models.ListNonEmptyDecks(a.DB)
-		} else {
-			decks, err = models.ListDecks(a.DB)
-		}
+		decks, err = models.ListDecks(a.DB)
 
 		if err != nil {
 			return useHandleDBError(c, err)

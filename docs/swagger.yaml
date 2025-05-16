@@ -85,6 +85,8 @@ definitions:
     properties:
       description:
         type: string
+      hasMinorCards:
+        type: boolean
       id:
         type: integer
       image:
@@ -115,6 +117,8 @@ definitions:
     properties:
       description:
         type: string
+      hasMinorCards:
+        type: boolean
       id:
         type: integer
       image:
@@ -624,18 +628,6 @@ paths:
     get:
       description: Retrieves a list of available Tarot decks. Optionally filters decks
         that contain cards.
-      parameters:
-      - description: Filter to include only decks that contain cards
-        enum:
-        - "true"
-        - "yes"
-        - "1"
-        - "false"
-        - "no"
-        - "0"
-        in: query
-        name: hasCards
-        type: string
       produces:
       - application/json
       responses:

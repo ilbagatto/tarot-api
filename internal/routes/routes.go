@@ -1,9 +1,12 @@
 package routes
 
 import (
+	"os"
+
 	_ "github.com/ilbagatto/tarot-api/docs" // Import generated Swagger docs
 	"github.com/ilbagatto/tarot-api/internal/app"
 	"github.com/ilbagatto/tarot-api/internal/handlers"
+	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
@@ -75,4 +78,12 @@ func InitRoutes(a *app.App) {
 
 	// Swagger documentation route
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
+
+	if os.Getenv("APP_ENV") == "dev" {
+		e.GET("/*", func(c echo.Context) error {
+			c.Response().Header().Del(echo.HeaderContentType)
+			return c.File("static/images" + c.Request().URL.Path)
+		})
+	}
+
 }
