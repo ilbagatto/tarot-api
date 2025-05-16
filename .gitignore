@@ -29,3 +29,5 @@ bin/
 .vscode/
 go-taricode-workspace
 *.code-workspace
+
+static/images
