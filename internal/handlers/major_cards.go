@@ -94,7 +94,7 @@ func CreateMajorCardHandler(a *app.App) echo.HandlerFunc {
 // @Produce json
 // @Param id path int true "CardMajor ID"
 // @Param card body models.CardMajorInput true "Updated card"
-// @Success 200 {object} models.CardMajor
+// @Success 204 "No Content"
 // @Failure 400 {object} handlers.APIResponse
 // @Failure 404 {object} handlers.APIResponse
 // @Failure 500 {object} handlers.APIResponse
@@ -109,12 +109,11 @@ func UpdateMajorCardHandler(a *app.App) echo.HandlerFunc {
 		if err := useBind(c, &input); err != nil {
 			return SendError(c, http.StatusBadRequest, err)
 		}
-		updated, err := models.UpdateMajorCard(a.DB, id, input)
-		if err != nil {
+		if err := models.UpdateMajorCard(a.DB, id, input); err != nil {
 			return useHandleNotFoundOrDBError(c, err, "Major Card not found")
 		}
 
-		return c.JSON(http.StatusOK, updated)
+		return c.JSON(http.StatusOK, http.StatusNoContent)
 	}
 }
 

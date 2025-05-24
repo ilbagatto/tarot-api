@@ -20,7 +20,8 @@ type DeckInput struct {
 type Deck struct {
 	ID            int64    `json:"id"`
 	Name          string   `json:"name"`
-	Image         string   `json:"image"` // Full URL
+	Image         string   `json:"image"`     // Full URL
+	Thumbnail     string   `json:"thumbnail"` // Full URL
 	Description   string   `json:"description"`
 	Sources       []Source `json:"sources,omitempty"`
 	HasMinorCards bool     `json:"hasMinorCards"`
@@ -30,7 +31,8 @@ type Deck struct {
 type DeckListItem struct {
 	ID            int64  `json:"id"`
 	Name          string `json:"name"`
-	Image         string `json:"image"` // Full URL
+	Image         string `json:"image"`     // Full URL
+	Thumbnail     string `json:"thumbnail"` // Full URL
 	Description   string `json:"description"`
 	HasMinorCards bool   `json:"hasMinorCards"`
 }
@@ -50,10 +52,12 @@ func fetchDecksFromRows(rows *sql.Rows) ([]DeckListItem, error) {
 
 	for rows.Next() {
 		var deck DeckListItem
-		if err := rows.Scan(&deck.ID, &deck.Name, &deck.Image, &deck.HasMinorCards, &deck.Description); err != nil {
+		var img string
+		if err := rows.Scan(&deck.ID, &deck.Name, &img, &deck.HasMinorCards, &deck.Description); err != nil {
 			return nil, err
 		}
-		deck.Image = *utils.GetImageURL(deck.Image)
+		deck.Image = *utils.GetImageURL(img, false)
+		deck.Thumbnail = *utils.GetImageURL(img, true)
 		decks = append(decks, deck)
 	}
 
@@ -77,12 +81,14 @@ func GetDeckByID(db *sql.DB, deckId int64) (*Deck, error) {
 	var deck Deck
 
 	// Main deck query
+	var img string
 	row := db.QueryRow("SELECT id, name, image, has_minor_cards, description FROM deck_with_stats WHERE id = $1", deckId)
-	if err := row.Scan(&deck.ID, &deck.Name, &deck.Image, &deck.HasMinorCards, &deck.Description); err != nil {
+	if err := row.Scan(&deck.ID, &deck.Name, &img, &deck.HasMinorCards, &deck.Description); err != nil {
 		return nil, err
 	}
 
-	deck.Image = *utils.GetImageURL(deck.Image)
+	deck.Image = *utils.GetImageURL(img, false)
+	deck.Thumbnail = *utils.GetImageURL(img, false)
 
 	// Load related sources
 	query := `

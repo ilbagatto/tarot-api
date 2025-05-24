@@ -29,6 +29,9 @@ definitions:
       orgname:
         example: Le Mat
         type: string
+      thumbnail:
+        description: Full URL
+        type: string
     type: object
   models.CardMajorInput:
     properties:
@@ -68,6 +71,9 @@ definitions:
       suit:
         example: 1
         type: integer
+      thumbnail:
+        description: Full URL
+        type: string
     type: object
   models.CardMinorInput:
     properties:
@@ -98,6 +104,9 @@ definitions:
         items:
           $ref: '#/definitions/models.Source'
         type: array
+      thumbnail:
+        description: Full URL
+        type: string
     type: object
   models.DeckInput:
     properties:
@@ -125,6 +134,9 @@ definitions:
         description: Full URL
         type: string
       name:
+        type: string
+      thumbnail:
+        description: Full URL
         type: string
     type: object
   models.DeckRef:
@@ -456,10 +468,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.CardMajor'
+        "204":
+          description: No Content
         "400":
           description: Bad Request
           schema:

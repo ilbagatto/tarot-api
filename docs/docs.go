@@ -184,11 +184,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.CardMajor"
-                        }
+                    "204": {
+                        "description": "No Content"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -2031,6 +2028,10 @@ const docTemplate = `{
                 "orgname": {
                     "type": "string",
                     "example": "Le Mat"
+                },
+                "thumbnail": {
+                    "description": "Full URL",
+                    "type": "string"
                 }
             }
         },
@@ -2086,6 +2087,10 @@ const docTemplate = `{
                 "suit": {
                     "type": "integer",
                     "example": 1
+                },
+                "thumbnail": {
+                    "description": "Full URL",
+                    "type": "string"
                 }
             }
         },
@@ -2130,6 +2135,10 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.Source"
                     }
+                },
+                "thumbnail": {
+                    "description": "Full URL",
+                    "type": "string"
                 }
             }
         },
@@ -2171,6 +2180,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "description": "Full URL",
                     "type": "string"
                 }
             }

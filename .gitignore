@@ -30,4 +30,4 @@ bin/
 go-taricode-workspace
 *.code-workspace
 
-static/images
+static

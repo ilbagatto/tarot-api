@@ -46,7 +46,8 @@ func ListMajorCards(db *sql.DB, deckID int64) ([]CardMajor, error) {
 
 		img, err := GetCardImageByCardID(db, card.ID)
 		if err == nil {
-			card.Image = utils.GetImageURL(img.Path)
+			card.Image = utils.GetImageURL(img.Path, false)
+			card.Thumbnail = utils.GetImageURL(img.Path, true)
 		}
 
 		cards = append(cards, card)
@@ -74,7 +75,8 @@ func GetMajorCardByID(db *sql.DB, id int64) (*CardMajor, error) {
 
 	img, err := GetCardImageByCardID(db, card.ID)
 	if err == nil {
-		card.Image = utils.GetImageURL(img.Path)
+		card.Image = utils.GetImageURL(img.Path, false)
+		card.Thumbnail = utils.GetImageURL(img.Path, true)
 	}
 
 	// Load related meanings
@@ -137,10 +139,10 @@ func CreateMajorCard(db *sql.DB, input CardMajorInput) (*int64, error) {
 }
 
 // UpdateMajorCard updates an existing Major Arcana card
-func UpdateMajorCard(db *sql.DB, id int64, input CardMajorInput) (*CardMajor, error) {
+func UpdateMajorCard(db *sql.DB, id int64, input CardMajorInput) error {
 	tx, err := db.Begin()
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer func() {
 		if err != nil {
@@ -151,7 +153,7 @@ func UpdateMajorCard(db *sql.DB, id int64, input CardMajorInput) (*CardMajor, er
 	}()
 
 	if err := updateCard(tx, input.DeckID, id); err != nil {
-		return nil, err
+		return err
 	}
 
 	const updateMajor = `
@@ -160,34 +162,17 @@ func UpdateMajorCard(db *sql.DB, id int64, input CardMajorInput) (*CardMajor, er
 		WHERE card = $4`
 	res, err := tx.Exec(updateMajor, input.Number, input.Name, input.OrgName, id)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		return nil, err
+		return err
 	}
 	if rowsAffected == 0 {
-		return nil, sql.ErrNoRows
+		return sql.ErrNoRows
 	}
 
-	updated := &CardMajor{
-		Card: Card{
-			ID:     id,
-			Name:   input.Name,
-			DeckID: input.DeckID,
-			Image:  nil,
-		},
-		Number:  input.Number,
-		Name:    input.Name,
-		OrgName: input.OrgName,
-	}
-
-	img, err := GetCardImageByCardID(db, id)
-	if err == nil {
-		updated.Image = utils.GetImageURL(img.Path)
-	}
-
-	return updated, nil
+	return nil
 }
 
 // DeleteMajorCard deletes a Major Arcana card from the database

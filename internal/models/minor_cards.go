@@ -46,7 +46,8 @@ func ListMinorCards(db *sql.DB, deckID int64) ([]CardMinor, error) {
 
 		img, err := GetCardImageByCardID(db, card.ID)
 		if err == nil {
-			card.Image = utils.GetImageURL(img.Path)
+			card.Image = utils.GetImageURL(img.Path, false)
+			card.Thumbnail = utils.GetImageURL(img.Path, true)
 		}
 
 		cards = append(cards, card)
@@ -73,7 +74,8 @@ func GetMinorCardByID(db *sql.DB, id int64) (*CardMinor, error) {
 
 	img, err := GetCardImageByCardID(db, card.ID)
 	if err == nil {
-		card.Image = utils.GetImageURL(img.Path)
+		card.Image = utils.GetImageURL(img.Path, false)
+		card.Thumbnail = utils.GetImageURL(img.Path, true)
 	}
 
 	// Load related meanings
@@ -156,8 +158,20 @@ func UpdateMinorCard(db *sql.DB, id int64, input CardMinorInput) error {
 
 	const updateMinor = `
 		UPDATE card_minor SET suit = $1, rank = $2 WHERE card = $3`
-	_, err = tx.Exec(updateMinor, input.SuitID, input.RankID, id)
-	return err
+	res, err := tx.Exec(updateMinor, input.SuitID, input.RankID, id)
+	if err != nil {
+		return err
+	}
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+
 }
 
 func DeleteMinorCard(db *sql.DB, id int64) error {

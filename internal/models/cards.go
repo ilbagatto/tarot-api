@@ -3,11 +3,12 @@ package models
 import "database/sql"
 
 type Card struct {
-	ID       int64        `json:"id"`
-	Name     string       `json:"name" example:"The Fool"`
-	DeckID   int64        `json:"deck" example:"1"`
-	Image    *string      `json:"image,omitempty"` // Full URL
-	Meanings []MeaningRef `json:"meanings,omitempty"`
+	ID        int64        `json:"id"`
+	Name      string       `json:"name" example:"The Fool"`
+	DeckID    int64        `json:"deck" example:"1"`
+	Image     *string      `json:"image,omitempty"`     // Full URL
+	Thumbnail *string      `json:"thumbnail,omitempty"` // Full URL
+	Meanings  []MeaningRef `json:"meanings,omitempty"`
 }
 
 func updateCard(tx *sql.Tx, deckID int64, id int64) error {
